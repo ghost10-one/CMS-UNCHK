@@ -1,7 +1,7 @@
 <?php
 define('DB_NAME', 'cms_education');
-define('DB_USER', 'root');          // Windows : root, Linux : cms_user
-define('DB_PASSWORD', '');          // Windows : vide, Linux : motdepassefort
+define('DB_USER', 'root');         
+define('DB_PASSWORD', '');         
 define('DB_HOST', 'localhost');
 
 // Clés uniques de sécurité
