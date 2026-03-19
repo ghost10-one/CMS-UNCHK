@@ -166,7 +166,6 @@ if ( ! function_exists( 'twentytwentyfive_format_binding' ) ) :
 endif;
 
 
-
 // Afficher les champs ACF sur la page Mon Profil
 add_shortcode('mon_profil', function() {
     $user_id = get_current_user_id();
@@ -178,6 +177,18 @@ add_shortcode('mon_profil', function() {
     $output .= '<h3>Langues</h3><p>' . get_field('langues', 'user_' . $user_id) . '</p>';
     $output .= '<h3>Localisation</h3><p>' . get_field('localisation', 'user_' . $user_id) . '</p>';
     $output .= '<h3>Disponibilité</h3><p>' . get_field('disponibilite', 'user_' . $user_id) . '</p>';
+    
+    // Afficher les badges
+    $badges = get_user_meta($user_id, 'badges', true);
+    if (!empty($badges) && is_array($badges)) {
+        $output .= '<h3>🏆 Badges de compétences</h3><div>';
+        foreach ($badges as $badge) {
+            $output .= '<span>✅ ' . esc_html($badge) . '</span> ';
+        }
+        $output .= '</div>';
+    } else {
+        $output .= '<h3>🏆 Badges</h3><p>Aucun badge — passez un quiz !</p>';
+    }
     
     return $output;
 });
