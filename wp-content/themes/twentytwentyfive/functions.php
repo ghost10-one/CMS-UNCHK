@@ -164,3 +164,46 @@ if ( ! function_exists( 'twentytwentyfive_format_binding' ) ) :
 		}
 	}
 endif;
+
+
+
+// Afficher les champs ACF sur la page Mon Profil
+add_shortcode('mon_profil', function() {
+    $user_id = get_current_user_id();
+    
+    $output = '<h1>Mon Profil</h1>';
+    $output .= '<h3>Compétences</h3><p>' . get_field('competences', 'user_' . $user_id) . '</p>';
+    $output .= '<h3>Diplômes</h3><p>' . get_field('diplomes', 'user_' . $user_id) . '</p>';
+    $output .= '<h3>Expériences</h3><p>' . get_field('experiences', 'user_' . $user_id) . '</p>';
+    $output .= '<h3>Langues</h3><p>' . get_field('langues', 'user_' . $user_id) . '</p>';
+    $output .= '<h3>Localisation</h3><p>' . get_field('localisation', 'user_' . $user_id) . '</p>';
+    $output .= '<h3>Disponibilité</h3><p>' . get_field('disponibilite', 'user_' . $user_id) . '</p>';
+    
+    return $output;
+});
+
+
+// Page profil public pour recruteurs
+add_shortcode('profil_public', function() {
+    $user_id = isset($_GET['candidat']) ? intval($_GET['candidat']) : 0;
+    
+    if (!$user_id) {
+        return '<p>Aucun candidat sélectionné.</p>';
+    }
+    
+    $user = get_userdata($user_id);
+    if (!$user) {
+        return '<p>Candidat introuvable.</p>';
+    }
+    
+    $output = '<div class="profil-public">';
+    $output .= '<h2>' . esc_html($user->display_name) . '</h2>';
+    $output .= '<h3>Compétences</h3><p>' . get_field('competences', 'user_' . $user_id) . '</p>';
+    $output .= '<h3>Diplômes</h3><p>' . get_field('diplomes', 'user_' . $user_id) . '</p>';
+    $output .= '<h3>Expériences</h3><p>' . get_field('experiences', 'user_' . $user_id) . '</p>';
+    $output .= '<h3>Langues</h3><p>' . get_field('langues', 'user_' . $user_id) . '</p>';
+    $output .= '<h3>Localisation</h3><p>' . get_field('localisation', 'user_' . $user_id) . '</p>';
+    $output .= '</div>';
+    
+    return $output;
+});
